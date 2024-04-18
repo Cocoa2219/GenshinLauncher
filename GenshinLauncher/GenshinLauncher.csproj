@@ -2,20 +2,44 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net8.0-windows</TargetFramework>
+    <TargetFramework>net8.0-windows10.0.22621.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
+    <SupportedOSPlatformVersion>7.0</SupportedOSPlatformVersion>
+    <ApplicationIcon>Images\Furina.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Fonts\GowunDodum-Regular.ttf" />
+    <None Remove="Images\SplashScreen4_1.png" />
+    <None Remove="Images\SplashScreen4_5.png" />
+    <None Remove="Images\SplashScreen4_5_2.png" />
+    <None Remove="Images\VersionIssues.png" />
     <None Remove="SplashScreen4_5_2.png" />
-    <None Remove="VersionIssues.png" />
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="Images\Furina.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Fonts\GowunDodum-Regular.ttf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\SplashScreen4_1.png">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\SplashScreen4_5.png">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\SplashScreen4_5_2.png">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\VersionIssues.png">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Resource>
     <Resource Include="SplashScreen4_5_2.png" />
-    <Resource Include="VersionIssues.png" />
   </ItemGroup>
 
 </Project>

@@ -5,24 +5,65 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GenshinLauncher"
         WindowStyle="SingleBorderWindow"
-        ResizeMode="CanResize"
+        ResizeMode="CanMinimize"
         mc:Ignorable="d"
-        Title="MainWindow" Height="714" Width="1200">
+        Title="원-신은 역시 푸리나" Height="714" Width="1200">
     <WindowChrome.WindowChrome>
         <WindowChrome NonClientFrameEdges="None" GlassFrameThickness="0" ResizeBorderThickness="0" CaptionHeight="0" CornerRadius="5"/>
     </WindowChrome.WindowChrome>
 
     <Grid>
-        <Image HorizontalAlignment="Left" Height="699" VerticalAlignment="Top" Width="1228" Margin="0,15,0,0" Source="/Splashscreen4_5_2.png"/>
+        <Image HorizontalAlignment="Left" Height="699" VerticalAlignment="Top" Width="1228" Margin="0,15,0,0" Source="/Images/Splashscreen4_5_2.png" Visibility="Visible"/>
 
         <Rectangle HorizontalAlignment="Right" Height="714" Margin="1128,0,0,0" VerticalAlignment="Center" Width="72" Fill="#7F000000"/>
         <StackPanel Orientation="Horizontal" Width="500" Background="#141414" MouseLeftButtonDown="mouse_MoveWindow" Height="30" VerticalAlignment="Top" Margin="0,0,700,0">
-            <Label Content="Genshin Impact" Width="114" FontFamily="Bahnschrift Light" Foreground="White" VerticalAlignment="Center" FontSize="15" Margin="3,3,0,0"></Label>
-            <Label Content="4.2.0" Width="218" FontFamily="Bahnschrift Light" Foreground="DimGray" VerticalAlignment="Center" FontSize="15" Margin="-5,3,0,0"></Label>
+            <Label Content="원신" Width="114" FontFamily="NanumGothic" Foreground="White" FontSize="15" Margin="0,1,0,1" FontWeight="Bold"/>
+            <Label Content="4.5.2" Width="218" FontFamily="NanumGothic" Foreground="DimGray" VerticalAlignment="Center" FontSize="15" Margin="-78,0,0,0" FontWeight="Bold"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal" Width="710" Background="#141414" MouseLeftButtonDown="mouse_MoveWindow" Height="30" VerticalAlignment="Top" Margin="490,0,0,0" FlowDirection="RightToLeft">
-            <Button x:Name="BtnMinimize" Content="X" Width="30" FontFamily="Cascadia Mono" FontWeight="Bold" FontSize="18" Background="Transparent" BorderBrush="Transparent" Foreground="White" Template="{StaticResource NoMouseOverButtonTemplate}" Click="btn_Close" MouseEnter="BtnClose_MouseEnter" MouseLeave="Btn_MouseLeave"/>
-            <Button x:Name="BtnClose" Content="-" Width="30" FontFamily="Cascadia Mono" FontWeight="Bold" FontSize="18" Background="Transparent" BorderBrush="Transparent" Foreground="White" Template="{StaticResource NoMouseOverButtonTemplate}" Click="btn_Minimize" MouseEnter="BtnMinimize_MouseEnter" MouseLeave="Btn_MouseLeave"/>
+            <Button x:Name="BtnMinimize" Content="X" Width="30" FontFamily="Cascadia Mono" FontWeight="Bold" FontSize="18" Background="Transparent" BorderBrush="Transparent" Foreground="White" Template="{StaticResource NoMouseOverButtonTemplate}" Click="btn_Close" MouseEnter="BtnClose_MouseEnter" MouseLeave="Btn_MouseLeave" BorderThickness="0"/>
+            <Button x:Name="BtnClose" Content="-" Width="30" FontFamily="Cascadia Mono" FontWeight="Bold" FontSize="18" Background="Transparent" BorderBrush="Transparent" Foreground="White" Template="{StaticResource NoMouseOverButtonTemplate}" Click="btn_Minimize" MouseEnter="BtnMinimize_MouseEnter" MouseLeave="Btn_MouseLeave" BorderThickness="0"/>
         </StackPanel>
+
+        <Button x:Name="BtnIssues" Margin="970,513,95,133" BorderBrush="Transparent" BorderThickness="0" Background="#FFFFFFFA" Template="{StaticResource NoMouseOverButtonTemplate}" Cursor="Hand" Height="38" Width="128" Click="BtnIssues_Click" >
+            <Button.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="18"/>
+                </Style>
+            </Button.Resources>
+            <Label Content="버전 이슈" FontFamily="NanumGothic" Foreground="#ff5b7fb6" FontSize="20" Margin="0,-1,0,0" FontWeight="Bold"/>
+        </Button>
+
+        <Border Margin="974,516,99,136" BorderBrush="#995B7FB6" BorderThickness="1,1,1,1" CornerRadius="18" Height="34" Width="123" />
+
+        <Button x:Name="BtnStart" Margin="845,599,140,39" BorderBrush="Transparent" BorderThickness="0" Background="#FFFFC70A" Template="{StaticResource NoMouseOverButtonTemplate}" Cursor="Hand" MouseEnter="BtnStart_MouseEnter" MouseLeave="BtnStart_MouseLeave" Click="BtnStart_Click" >
+            <Button.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="10,0,0,10"/>
+                </Style>
+            </Button.Resources>
+            <Grid>
+                <Label Content="게임 실행" FontFamily="NanumGothic" Foreground="#FF735507" FontSize="34" Margin="0,0,0,0" FontWeight="Bold"/>
+
+            </Grid>
+        </Button>
+        <Button x:Name="BtnSettings" Margin="1052,599,95,39" BorderBrush="Transparent" BorderThickness="0" Background="#FFFFC70A" Template="{StaticResource NoMouseOverButtonTemplate}" Cursor="Hand" MouseEnter="BtnStart_MouseEnter" MouseLeave="BtnStart_MouseLeave" Click="BtnSettings_Click" >
+            <Button.Resources>
+                <Style TargetType="Border">
+                    <Setter Property="CornerRadius" Value="0,10,10,0"/>
+                </Style>
+            </Button.Resources>
+            <Grid>
+                <Rectangle Fill="#FF735507" Width="1" Height="60" Margin="-53,0,0,0" />
+                <Rectangle Fill="#FF735507" Width="25" Height="2" Margin="0,-15,0,0"/>
+                <Rectangle Fill="#FF735507" Width="25" Height="2" Margin="0,0,0,0"/>
+                <Rectangle Fill="#FF735507" Width="25" Height="2" Margin="0,15,0,0"/>
+            </Grid>
+        </Button>
+
+        <Grid x:Name="GridStartingSettings" Visibility="Hidden">
+            <Polygon Points="0,0 10,15, 20,0" Stroke="White" Fill="White" Margin="1068,584,111,99"/>
+            <Border Background="White" Margin="1004,387,47,114" CornerRadius="8" Width="149" Height="197"/>
+        </Grid>
     </Grid>
 </Window>
