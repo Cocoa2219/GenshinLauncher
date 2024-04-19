@@ -7,22 +7,91 @@
         WindowStyle="SingleBorderWindow"
         ResizeMode="CanMinimize"
         mc:Ignorable="d"
-        Title="원-신은 역시 푸리나" Height="714" Width="1200">
+        SizeToContent="WidthAndHeight"
+        Title="원-신은 역시 푸리나">
+    <Window.Resources>
+        <SolidColorBrush x:Key="ProgressBar.Progress" Color="#FF06B025"/>
+        <SolidColorBrush x:Key="ProgressBar.Background" Color="#FFE6E6E6"/>
+        <SolidColorBrush x:Key="ProgressBar.Border" Color="#FFBCBCBC"/>
+        <Style x:Key="RoundedProgressBar" TargetType="{x:Type ProgressBar}">
+            <Setter Property="Foreground" Value="{StaticResource ProgressBar.Progress}"/>
+            <Setter Property="Background" Value="{StaticResource ProgressBar.Background}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource ProgressBar.Border}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ProgressBar}">
+                        <Grid x:Name="TemplateRoot">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Determinate"/>
+                                    <VisualState x:Name="Indeterminate">
+                                        <Storyboard RepeatBehavior="Forever">
+                                            <DoubleAnimationUsingKeyFrames Storyboard.TargetName="Animation" Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)">
+                                                <EasingDoubleKeyFrame KeyTime="0" Value="0.25"/>
+                                                <EasingDoubleKeyFrame KeyTime="0:0:1" Value="0.25"/>
+                                                <EasingDoubleKeyFrame KeyTime="0:0:2" Value="0.25"/>
+                                            </DoubleAnimationUsingKeyFrames>
+                                            <PointAnimationUsingKeyFrames Storyboard.TargetName="Animation" Storyboard.TargetProperty="(UIElement.RenderTransformOrigin)">
+                                                <EasingPointKeyFrame KeyTime="0" Value="-0.5,0.5"/>
+                                                <EasingPointKeyFrame KeyTime="0:0:1" Value="0.5,0.5"/>
+                                                <EasingPointKeyFrame KeyTime="0:0:2" Value="1.5,0.5"/>
+                                            </PointAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="5"/>
+                            <Rectangle x:Name="PART_Track"/>
+                            <Grid x:Name="PART_Indicator" ClipToBounds="true" HorizontalAlignment="Left">
+                                <Rectangle x:Name="Indicator" Fill="{TemplateBinding Foreground}" RadiusX="5" RadiusY="5"/>
+                                <Rectangle x:Name="Animation" Fill="{TemplateBinding Foreground}" RenderTransformOrigin="0.5,0.5" RadiusX="5" RadiusY="5">
+                                    <Rectangle.RenderTransform>
+                                        <TransformGroup>
+                                            <ScaleTransform/>
+                                            <SkewTransform/>
+                                            <RotateTransform/>
+                                            <TranslateTransform/>
+                                        </TransformGroup>
+                                    </Rectangle.RenderTransform>
+                                </Rectangle>
+                            </Grid>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="Orientation" Value="Vertical">
+                                <Setter Property="LayoutTransform" TargetName="TemplateRoot">
+                                    <Setter.Value>
+                                        <RotateTransform Angle="-90"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
+                            <Trigger Property="IsIndeterminate" Value="true">
+                                <Setter Property="Visibility" TargetName="Indicator" Value="Collapsed"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
     <WindowChrome.WindowChrome>
         <WindowChrome NonClientFrameEdges="None" GlassFrameThickness="0" ResizeBorderThickness="0" CaptionHeight="0" CornerRadius="5"/>
     </WindowChrome.WindowChrome>
 
-    <Grid>
+    <Grid Height="714" Width="1200" PreviewMouseDown="Grid_MouseDown">
         <Image HorizontalAlignment="Left" Height="699" VerticalAlignment="Top" Width="1228" Margin="0,15,0,0" Source="/Images/Splashscreen4_5_2.png" Visibility="Visible"/>
 
         <Rectangle HorizontalAlignment="Right" Height="714" Margin="1128,0,0,0" VerticalAlignment="Center" Width="72" Fill="#7F000000"/>
         <StackPanel Orientation="Horizontal" Width="500" Background="#141414" MouseLeftButtonDown="mouse_MoveWindow" Height="30" VerticalAlignment="Top" Margin="0,0,700,0">
-            <Label Content="원신" Width="114" FontFamily="NanumGothic" Foreground="White" FontSize="15" Margin="0,1,0,1" FontWeight="Bold"/>
-            <Label Content="4.5.2" Width="218" FontFamily="NanumGothic" Foreground="DimGray" VerticalAlignment="Center" FontSize="15" Margin="-78,0,0,0" FontWeight="Bold"/>
+            <Label Content="원신" Width="114" FontFamily="NanumGothic" Foreground="White" FontSize="15" Margin="0,1,0,1" FontWeight="SemiBold"/>
+            <Label Content="4.5.0" Width="218" FontFamily="NanumGothic" Foreground="DimGray" VerticalAlignment="Center" FontSize="15" Margin="-78,0,0,0" FontWeight="SemiBold"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal" Width="710" Background="#141414" MouseLeftButtonDown="mouse_MoveWindow" Height="30" VerticalAlignment="Top" Margin="490,0,0,0" FlowDirection="RightToLeft">
-            <Button x:Name="BtnMinimize" Content="X" Width="30" FontFamily="Cascadia Mono" FontWeight="Bold" FontSize="18" Background="Transparent" BorderBrush="Transparent" Foreground="White" Template="{StaticResource NoMouseOverButtonTemplate}" Click="btn_Close" MouseEnter="BtnClose_MouseEnter" MouseLeave="Btn_MouseLeave" BorderThickness="0"/>
-            <Button x:Name="BtnClose" Content="-" Width="30" FontFamily="Cascadia Mono" FontWeight="Bold" FontSize="18" Background="Transparent" BorderBrush="Transparent" Foreground="White" Template="{StaticResource NoMouseOverButtonTemplate}" Click="btn_Minimize" MouseEnter="BtnMinimize_MouseEnter" MouseLeave="Btn_MouseLeave" BorderThickness="0"/>
+            <Button x:Name="BtnMinimize" Content="X" Width="30" FontFamily="NanumGothic" FontSize="20" Background="Transparent" BorderBrush="Transparent" Foreground="White" Template="{StaticResource NoMouseOverButtonTemplate}" Click="btn_Close" MouseEnter="BtnClose_MouseEnter" MouseLeave="Btn_MouseLeave" BorderThickness="0" FontWeight="Bold"/>
+            <Button x:Name="BtnClose" Content="―" Width="30" FontFamily="NanumGothic" FontWeight="Bold" FontSize="20" Background="Transparent" BorderBrush="Transparent" Foreground="White" Template="{StaticResource NoMouseOverButtonTemplate}" Click="btn_Minimize" MouseEnter="BtnMinimize_MouseEnter" MouseLeave="Btn_MouseLeave" BorderThickness="0"/>
+            <Button x:Name="BtnScreenshot"  Width="30" FontFamily="NanumGothic" FontWeight="Bold" FontSize="20" Background="Transparent" BorderBrush="Transparent" Foreground="White" Template="{StaticResource NoMouseOverButtonTemplate}" Click="btn_Screenshot" MouseEnter="BtnMinimize_MouseEnter" MouseLeave="Btn_MouseLeave" BorderThickness="0">
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Source="/ScreenshotIcon.png"/>
+            </Button>
         </StackPanel>
 
         <Button x:Name="BtnIssues" Margin="970,513,95,133" BorderBrush="Transparent" BorderThickness="0" Background="#FFFFFFFA" Template="{StaticResource NoMouseOverButtonTemplate}" Cursor="Hand" Height="38" Width="128" Click="BtnIssues_Click" >
@@ -43,11 +112,10 @@
                 </Style>
             </Button.Resources>
             <Grid>
-                <Label Content="게임 실행" FontFamily="NanumGothic" Foreground="#FF735507" FontSize="34" Margin="0,0,0,0" FontWeight="Bold"/>
-
+                <Label Content="다운로드" FontFamily="NanumGothic" Foreground="#FF735507" FontSize="34" Margin="0,0,0,0" FontWeight="Bold"/>
             </Grid>
         </Button>
-        <Button x:Name="BtnSettings" Margin="1052,599,95,39" BorderBrush="Transparent" BorderThickness="0" Background="#FFFFC70A" Template="{StaticResource NoMouseOverButtonTemplate}" Cursor="Hand" MouseEnter="BtnStart_MouseEnter" MouseLeave="BtnStart_MouseLeave" Click="BtnSettings_Click" >
+        <Button x:Name="BtnSettings" Margin="1052,599,95,39" BorderBrush="Transparent" BorderThickness="0" Background="#FFFFC70A" Template="{StaticResource NoMouseOverButtonTemplate}" Cursor="Hand" Click="BtnSettings_Click" MouseEnter="BtnSettings_MouseEnter" MouseLeave="BtnSettings_MouseLeave" >
             <Button.Resources>
                 <Style TargetType="Border">
                     <Setter Property="CornerRadius" Value="0,10,10,0"/>
@@ -62,8 +130,37 @@
         </Button>
 
         <Grid x:Name="GridStartingSettings" Visibility="Hidden">
-            <Polygon Points="0,0 10,15, 20,0" Stroke="White" Fill="White" Margin="1068,584,111,99"/>
-            <Border Background="White" Margin="1004,387,47,114" CornerRadius="8" Width="149" Height="197"/>
+            <Border Background="White" Margin="956,379,95,125" CornerRadius="8" Width="149" Height="210"/>
+            <StackPanel Width="149" Margin="956,379,95,125" Height="200">
+                <Button x:Name="BtnStartSettings1" Height="50" Content="TestBtn1" FontFamily="NanumGothic" FontSize="18" FontWeight="SemiBold" BorderBrush="Transparent" BorderThickness="0" Background="White" Template="{StaticResource NoMouseOverButtonTemplate}" MouseEnter="BtnStartSettings_MouseEnter" MouseLeave="BtnStartSettings_MouseLeave"/>
+                <Button x:Name="BtnStartSettings2" Height="50" Content="TestBtn2" FontFamily="NanumGothic" FontSize="18" FontWeight="SemiBold" BorderBrush="Transparent" BorderThickness="0" Background="White" Template="{StaticResource NoMouseOverButtonTemplate}" MouseEnter="BtnStartSettings_MouseEnter" MouseLeave="BtnStartSettings_MouseLeave"/>
+                <Button x:Name="BtnStartSettings3" Height="50" Content="TestBtn3" FontFamily="NanumGothic" FontSize="18" FontWeight="SemiBold" BorderBrush="Transparent" BorderThickness="0" Background="White" Template="{StaticResource NoMouseOverButtonTemplate}" MouseEnter="BtnStartSettings_MouseEnter" MouseLeave="BtnStartSettings_MouseLeave"/>
+                <Button x:Name="BtnStartSettings4" Height="50" Content="TestBtn4" FontFamily="NanumGothic" FontSize="18" FontWeight="SemiBold" BorderBrush="Transparent" BorderThickness="0" Background="White" Template="{StaticResource NoMouseOverButtonTemplate}" MouseEnter="BtnStartSettings_MouseEnter" MouseLeave="BtnStartSettings_MouseLeave"/>
+            </StackPanel>
+        </Grid>
+
+        <Grid x:Name="GridStartingSettingsHint" Visibility="Hidden">
+            <Polygon Points="0,0 10,15, 20,0" Stroke="White" Fill="White" Margin="1068,580,111,115"/>
+            <Border Background="White" Margin="902,546,103,130" CornerRadius="8"/>
+            <Label Content="로컬 게임 파일 설정" FontFamily="NanumGothic" Foreground="#000000" FontSize="20" Margin="902,546,103,130" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="SemiBold"/>
+        </Grid>
+
+        <Grid x:Name="GridDownload" Visibility="Hidden">
+            <ProgressBar x:Name="ProgressDownload" Style="{DynamicResource RoundedProgressBar}" HorizontalAlignment="Left" Height="26" Margin="49,634,0,0" VerticalAlignment="Top" Width="654" Value="23" BorderBrush="{x:Null}" Foreground="#C1FFFFFF" Background="#4CCCCCCC"/>
+            <Label x:Name="LabelDownloadPercentage" Content="다운로드 중... 54% (6.43 GB / 12.50 GB)" HorizontalAlignment="Left" Margin="43,606,0,0" VerticalAlignment="Top" Width="338" FontFamily="NanumGothic" FontWeight="SemiBold" Foreground="White" FontSize="15" Height="28"/>
+            <Label x:Name="LabelDownloadSpeed" Content="다운로드 속도: 5.4MB/s" HorizontalAlignment="Left" Margin="43,660,0,0" VerticalAlignment="Top" Width="447" FontFamily="NanumGothic" FontWeight="SemiBold" Foreground="White" FontSize="15" Height="28"/>
+            <TextBlock x:Name="TextBlockETA" Text="예상 시간 - 10h 20m 10s" TextAlignment="Right" HorizontalAlignment="Right" Margin="0,611,497,0" VerticalAlignment="Top" Width="317" FontFamily="NanumGothic" FontWeight="SemiBold" Foreground="#FFFFE600" FontSize="15" Height="19" Background="{x:Null}"/>
+            <Button x:Name="BtnPause" BorderBrush="Transparent" BorderThickness="0" Background="#B2FFFFFF" Template="{StaticResource NoMouseOverButtonTemplate}" Cursor="Hand" Width="25" Height="25" Margin="715,634,460,54" Click="BtnPause_Click">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="3"/>
+                    </Style>
+                </Button.Resources>
+                <Grid>
+                    <Rectangle Width="4" Height="12" Fill="White" Margin="-7,0,0,0" />
+                    <Rectangle Width="4" Height="12" Fill="White" Margin="7,0,0,0" />
+                </Grid>
+            </Button>
         </Grid>
     </Grid>
 </Window>

@@ -12,11 +12,12 @@
 
   <ItemGroup>
     <None Remove="Fonts\GowunDodum-Regular.ttf" />
+    <None Remove="Images\ScreenshotIcon.png" />
     <None Remove="Images\SplashScreen4_1.png" />
     <None Remove="Images\SplashScreen4_5.png" />
     <None Remove="Images\SplashScreen4_5_2.png" />
     <None Remove="Images\VersionIssues.png" />
-    <None Remove="SplashScreen4_5_2.png" />
+    <None Remove="ScreenshotIcon.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -27,6 +28,7 @@
     <Resource Include="Fonts\GowunDodum-Regular.ttf">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Images\ScreenshotIcon.png" />
     <Resource Include="Images\SplashScreen4_1.png">
       <CopyToOutputDirectory></CopyToOutputDirectory>
     </Resource>
@@ -39,7 +41,7 @@
     <Resource Include="Images\VersionIssues.png">
       <CopyToOutputDirectory></CopyToOutputDirectory>
     </Resource>
-    <Resource Include="SplashScreen4_5_2.png" />
+    <Resource Include="ScreenshotIcon.png" />
   </ItemGroup>
 
 </Project>
