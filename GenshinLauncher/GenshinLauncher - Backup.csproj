@@ -11,11 +11,9 @@
     <ApplicationIcon>Images\Furina.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
-    <None Remove="Events.json" />
     <None Remove="Fonts\GowunDodum-Regular.ttf" />
     <None Remove="Images\BG.png" />
     <None Remove="Images\BG1.png" />
-    <None Remove="Images\BG2.png" />
     <None Remove="Images\CloseButton.png" />
     <None Remove="Images\FurinaTray.ico" />
     <None Remove="Images\Icons.png" />
@@ -24,35 +22,13 @@
     <None Remove="Images\SplashScreen4_5.png" />
     <None Remove="Images\SplashScreen4_5_2.png" />
     <None Remove="Images\VersionIssues.png" />
-    <None Remove="Notifications.json" />
-    <None Remove="SplashImages\BG1 - 복사%288%29.json" />
-    <None Remove="SplashImages\BG1 - 복사(8) - 복사(7).json" />
-    <None Remove="SplashImages\BG1 - 복사(8) - 복사(8).json" />
-    <None Remove="SplashImages\BG1 - 복사(8) - 복사(9).json" />
-    <None Remove="SplashImages\BG1 - 복사(8) - 복사.json" />
-    <None Remove="SplashImages\BG1.json" />
-    <None Remove="SplashImages\BG2.json" />
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="SplashImages\BG1 - 복사(8) - 복사(7).json" />
-    <Resource Include="SplashImages\BG1 - 복사(8) - 복사(8).json" />
-    <Resource Include="SplashImages\BG1 - 복사(8) - 복사(9).json" />
-    <Resource Include="SplashImages\BG1 - 복사(8) - 복사.json" />
-    <Resource Include="SplashImages\BG2.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Notifications\Events.json" />
     <Resource Include="Images\BG.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Images\Icons.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Notifications\Notifications.json" />
-    <Resource Include="SplashImages\BG1 - 복사(8).json" />
-    <Resource Include="SplashImages\BG2.json" />
-    <Resource Include="SplashImages\BG1.json" />
+    <Resource Include="Images\Icons.png" />
     <Resource Include="SplashImages\BG1.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>

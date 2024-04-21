@@ -10,6 +10,18 @@
         SizeToContent="WidthAndHeight"
         Title="원-신은 역시 푸리나">
     <Window.Resources>
+        <Storyboard x:Key="FadeInStoryboard">
+            <DoubleAnimation
+                Storyboard.TargetProperty="Opacity"
+                From="0.0" To="1.0" Duration="0:0:0.2" />
+        </Storyboard>
+
+        <Storyboard x:Key="FadeOutStoryboard" Completed="FadeOutStoryboard_Completed">
+            <DoubleAnimation
+                    Storyboard.TargetProperty="Opacity"
+                    From="1.0" To="0.0" Duration="0:0:0.2" />
+        </Storyboard>
+
         <SolidColorBrush x:Key="ProgressBar.Progress" Color="#FF06B025"/>
         <SolidColorBrush x:Key="ProgressBar.Background" Color="#FFE6E6E6"/>
         <SolidColorBrush x:Key="ProgressBar.Border" Color="#FFBCBCBC"/>
@@ -79,9 +91,9 @@
     </WindowChrome.WindowChrome>
 
     <Grid Height="714" Width="1200" PreviewMouseDown="Grid_MouseDown">
-        <Image HorizontalAlignment="Left" Height="699" VerticalAlignment="Top" Width="1228" Margin="0,15,0,0" Source="/Images/Splashscreen4_5_2.png" Visibility="Visible"/>
+        <Image HorizontalAlignment="Left" Height="714" VerticalAlignment="Top" Width="1200" Margin="0"  Source="/Images/Splashscreen4_5_2.png" Visibility="Visible" Stretch="Fill"/>
+        <Rectangle HorizontalAlignment="Right" Margin="0,25,0,0" Width="73" Fill="#4C000000"/>
 
-        <Rectangle HorizontalAlignment="Right" Height="714" Margin="1128,0,0,0" VerticalAlignment="Center" Width="72" Fill="#7F000000"/>
         <StackPanel Orientation="Horizontal" Width="500" Background="#141414" MouseLeftButtonDown="mouse_MoveWindow" Height="30" VerticalAlignment="Top" Margin="0,0,700,0">
             <Label Content="원신" Width="114" FontFamily="NanumGothic" Foreground="White" FontSize="15" Margin="0,1,0,1" FontWeight="SemiBold"/>
             <Label Content="4.5.0" Width="218" FontFamily="NanumGothic" Foreground="DimGray" VerticalAlignment="Center" FontSize="15" Margin="-78,0,0,0" FontWeight="SemiBold"/>
@@ -90,7 +102,7 @@
             <Button x:Name="BtnMinimize" Content="X" Width="30" FontFamily="NanumGothic" FontSize="20" Background="Transparent" BorderBrush="Transparent" Foreground="White" Template="{StaticResource NoMouseOverButtonTemplate}" Click="btn_Close" MouseEnter="BtnClose_MouseEnter" MouseLeave="Btn_MouseLeave" BorderThickness="0" FontWeight="Bold"/>
             <Button x:Name="BtnClose" Content="―" Width="30" FontFamily="NanumGothic" FontWeight="Bold" FontSize="20" Background="Transparent" BorderBrush="Transparent" Foreground="White" Template="{StaticResource NoMouseOverButtonTemplate}" Click="btn_Minimize" MouseEnter="BtnMinimize_MouseEnter" MouseLeave="Btn_MouseLeave" BorderThickness="0"/>
             <Button x:Name="BtnScreenshot"  Width="30" FontFamily="NanumGothic" FontWeight="Bold" FontSize="20" Background="Transparent" BorderBrush="Transparent" Foreground="White" Template="{StaticResource NoMouseOverButtonTemplate}" Click="btn_Screenshot" MouseEnter="BtnMinimize_MouseEnter" MouseLeave="Btn_MouseLeave" BorderThickness="0">
-                <Image RenderOptions.BitmapScalingMode="HighQuality" Source="/ScreenshotIcon.png"/>
+                <Image RenderOptions.BitmapScalingMode="HighQuality" Source="/Images/ScreenshotIcon.png"/>
             </Button>
         </StackPanel>
 
@@ -112,7 +124,7 @@
                 </Style>
             </Button.Resources>
             <Grid>
-                <Label Content="다운로드" FontFamily="NanumGothic" Foreground="#FF735507" FontSize="34" Margin="0,0,0,0" FontWeight="Bold"/>
+                <Label x:Name="LabelStart" Content="다운로드" FontFamily="NanumGothic" Foreground="#FF735507" FontSize="34" Margin="0,0,0,0" FontWeight="Bold"/>
             </Grid>
         </Button>
         <Button x:Name="BtnSettings" Margin="1052,599,95,39" BorderBrush="Transparent" BorderThickness="0" Background="#FFFFC70A" Template="{StaticResource NoMouseOverButtonTemplate}" Cursor="Hand" Click="BtnSettings_Click" MouseEnter="BtnSettings_MouseEnter" MouseLeave="BtnSettings_MouseLeave" >
@@ -132,10 +144,10 @@
         <Grid x:Name="GridStartingSettings" Visibility="Hidden">
             <Border Background="White" Margin="956,379,95,125" CornerRadius="8" Width="149" Height="210"/>
             <StackPanel Width="149" Margin="956,379,95,125" Height="200">
-                <Button x:Name="BtnStartSettings1" Height="50" Content="TestBtn1" FontFamily="NanumGothic" FontSize="18" FontWeight="SemiBold" BorderBrush="Transparent" BorderThickness="0" Background="White" Template="{StaticResource NoMouseOverButtonTemplate}" MouseEnter="BtnStartSettings_MouseEnter" MouseLeave="BtnStartSettings_MouseLeave"/>
-                <Button x:Name="BtnStartSettings2" Height="50" Content="TestBtn2" FontFamily="NanumGothic" FontSize="18" FontWeight="SemiBold" BorderBrush="Transparent" BorderThickness="0" Background="White" Template="{StaticResource NoMouseOverButtonTemplate}" MouseEnter="BtnStartSettings_MouseEnter" MouseLeave="BtnStartSettings_MouseLeave"/>
-                <Button x:Name="BtnStartSettings3" Height="50" Content="TestBtn3" FontFamily="NanumGothic" FontSize="18" FontWeight="SemiBold" BorderBrush="Transparent" BorderThickness="0" Background="White" Template="{StaticResource NoMouseOverButtonTemplate}" MouseEnter="BtnStartSettings_MouseEnter" MouseLeave="BtnStartSettings_MouseLeave"/>
-                <Button x:Name="BtnStartSettings4" Height="50" Content="TestBtn4" FontFamily="NanumGothic" FontSize="18" FontWeight="SemiBold" BorderBrush="Transparent" BorderThickness="0" Background="White" Template="{StaticResource NoMouseOverButtonTemplate}" MouseEnter="BtnStartSettings_MouseEnter" MouseLeave="BtnStartSettings_MouseLeave"/>
+                <Button x:Name="BtnStartSettings1" Height="50" Content="설치 경로" FontFamily="NanumGothic" FontSize="18" FontWeight="SemiBold" BorderBrush="Transparent" BorderThickness="0" Background="White" Template="{StaticResource NoMouseOverButtonTemplate}" MouseEnter="BtnStartSettings_MouseEnter" MouseLeave="BtnStartSettings_MouseLeave" Click="BtnStartSettings1_Click"/>
+                <Button x:Name="BtnStartSettings2" Height="50" Content="원클릭 복구" FontFamily="NanumGothic" FontSize="18" FontWeight="SemiBold" BorderBrush="Transparent" BorderThickness="0" Background="White" Template="{StaticResource NoMouseOverButtonTemplate}" MouseEnter="BtnStartSettings_MouseEnter" MouseLeave="BtnStartSettings_MouseLeave"/>
+                <Button x:Name="BtnStartSettings3" Height="50" Content="다운로드 리소스 삭제" FontFamily="NanumGothic" FontWeight="SemiBold" BorderBrush="Transparent" BorderThickness="0" Background="White" Template="{StaticResource NoMouseOverButtonTemplate}" MouseEnter="BtnStartSettings_MouseEnter" MouseLeave="BtnStartSettings_MouseLeave" FontSize="15" Click="BtnStartSettings3_Click"/>
+                <Button x:Name="BtnStartSettings4" Height="50" Content="업데이트 체크" FontFamily="NanumGothic" FontSize="18" FontWeight="SemiBold" BorderBrush="Transparent" BorderThickness="0" Background="White" Template="{StaticResource NoMouseOverButtonTemplate}" MouseEnter="BtnStartSettings_MouseEnter" MouseLeave="BtnStartSettings_MouseLeave"/>
             </StackPanel>
         </Grid>
 
@@ -147,19 +159,135 @@
 
         <Grid x:Name="GridDownload" Visibility="Hidden">
             <ProgressBar x:Name="ProgressDownload" Style="{DynamicResource RoundedProgressBar}" HorizontalAlignment="Left" Height="26" Margin="49,634,0,0" VerticalAlignment="Top" Width="654" Value="23" BorderBrush="{x:Null}" Foreground="#C1FFFFFF" Background="#4CCCCCCC"/>
-            <Label x:Name="LabelDownloadPercentage" Content="다운로드 중... 54% (6.43 GB / 12.50 GB)" HorizontalAlignment="Left" Margin="43,606,0,0" VerticalAlignment="Top" Width="338" FontFamily="NanumGothic" FontWeight="SemiBold" Foreground="White" FontSize="15" Height="28"/>
-            <Label x:Name="LabelDownloadSpeed" Content="다운로드 속도: 5.4MB/s" HorizontalAlignment="Left" Margin="43,660,0,0" VerticalAlignment="Top" Width="447" FontFamily="NanumGothic" FontWeight="SemiBold" Foreground="White" FontSize="15" Height="28"/>
-            <TextBlock x:Name="TextBlockETA" Text="예상 시간 - 10h 20m 10s" TextAlignment="Right" HorizontalAlignment="Right" Margin="0,611,497,0" VerticalAlignment="Top" Width="317" FontFamily="NanumGothic" FontWeight="SemiBold" Foreground="#FFFFE600" FontSize="15" Height="19" Background="{x:Null}"/>
-            <Button x:Name="BtnPause" BorderBrush="Transparent" BorderThickness="0" Background="#B2FFFFFF" Template="{StaticResource NoMouseOverButtonTemplate}" Cursor="Hand" Width="25" Height="25" Margin="715,634,460,54" Click="BtnPause_Click">
+            <Label x:Name="LabelDownloadPercentage" Content="다운로드 중... | 0% (0 bytes / 0 bytes)" HorizontalAlignment="Left" Margin="43,606,0,0" VerticalAlignment="Top" Width="338" FontFamily="NanumGothic" FontWeight="SemiBold" Foreground="White" FontSize="15" Height="28"/>
+            <Label x:Name="LabelDownloadSpeed" Content="다운로드 속도 | 0B/s" HorizontalAlignment="Left" Margin="43,660,0,0" VerticalAlignment="Top" Width="447" FontFamily="NanumGothic" FontWeight="SemiBold" Foreground="White" FontSize="15" Height="28"/>
+            <TextBlock x:Name="TextBlockETA" Text="예상 시간 | 00:00:00" TextAlignment="Right" HorizontalAlignment="Right" Margin="0,611,497,0" VerticalAlignment="Top" Width="317" FontFamily="NanumGothic" FontWeight="SemiBold" Foreground="#FFFFE600" FontSize="15" Height="19" Background="{x:Null}"/>
+            <Button x:Name="BtnPause" BorderBrush="Transparent" BorderThickness="0" Background="#4CFFFFFF" Template="{StaticResource NoMouseOverButtonTemplate}" Cursor="Hand" Width="25" Height="25" Margin="715,634,460,54" Click="BtnPause_Click" MouseEnter="BtnPause_MouseEnter" MouseLeave="BtnPause_MouseLeave">
                 <Button.Resources>
                     <Style TargetType="Border">
                         <Setter Property="CornerRadius" Value="3"/>
                     </Style>
                 </Button.Resources>
                 <Grid>
-                    <Rectangle Width="4" Height="12" Fill="White" Margin="-7,0,0,0" />
-                    <Rectangle Width="4" Height="12" Fill="White" Margin="7,0,0,0" />
+                    <Grid x:Name="GridPaused">
+                        <Rectangle Width="4" Height="12" Fill="White" Margin="-7,0,0,0" />
+                        <Rectangle Width="4" Height="12" Fill="White" Margin="7,0,0,0" />
+                    </Grid>
+                    <Grid x:Name="GridResume" RenderTransformOrigin="0.5,0.5" Visibility="Hidden">
+                        <Grid.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform/>
+                                <SkewTransform/>
+                                <RotateTransform Angle="-90"/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </Grid.RenderTransform>
+                        <Polygon Points="0,0 5,7.5, 10,0" Stroke="White" Fill="White" Margin="0,3,0,-3"/>
+                    </Grid>
                 </Grid>
+            </Button>
+            <Button x:Name="BtnCancel" BorderBrush="Transparent" BorderThickness="0" Background="#4CFFFFFF" Template="{StaticResource NoMouseOverButtonTemplate}" Cursor="Hand" Width="25" Height="25" Margin="746,634,429,54" Click="BtnCancel_Click" MouseEnter="BtnCancel_MouseEnter" MouseLeave="BtnCancel_MouseLeave" FontFamily="NanumGothic" Content="X" Foreground="White" FontSize="16" FontWeight="ExtraBold">
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="3"/>
+                    </Style>
+                </Button.Resources>
+
+            </Button>
+        </Grid>
+
+        <Grid x:Name="GridNotification">
+            <Rectangle Fill="#7F000000" Margin="38,444,730,152" />
+            <Rectangle Fill="#4C000000" Margin="38,444,730,230" />
+            <Button x:Name="BtnEvent" Template="{StaticResource NoMouseOverButtonTemplate}" Cursor="Hand" Margin="38,444,1042,230" Background="Transparent" BorderThickness="0" FontFamily="NanumGothic" Content="이벤트" Foreground="#FFDCC9A6" FontSize="22" FontWeight="Bold" MouseEnter="BtnEvent_MouseEnter" MouseLeave="BtnEvent_MouseLeave" Click="BtnEvent_Click"/>
+            <Rectangle x:Name="RectEvent" Fill="#FFDCC9A6" Margin="38,482,1042,230" />
+            <Button x:Name="BtnInfo" Template="{StaticResource NoMouseOverButtonTemplate}" Cursor="Hand" Margin="158,443,922,231" Background="Transparent" BorderThickness="0" FontFamily="NanumGothic" Content="공지사항" Foreground="White" FontSize="22" FontWeight="Bold" MouseEnter="BtnInfo_MouseEnter" MouseLeave="BtnInfo_MouseLeave" Click="BtnInfo_Click"/>
+            <Rectangle x:Name="RectInfo" Fill="#FFDCC9A6" Margin="158,482,922,230" Visibility="Hidden"/>
+            <Border x:Name="BorderEvent" Margin="38,484,730,152">
+                <StackPanel x:Name="StackEvents" Margin="20,5,20,0">
+                    <StackPanel.Resources>
+                        <Style TargetType="{x:Type Grid}">
+                            <Setter Property="Margin" Value="0,15,0,0"/>
+                        </Style>
+                    </StackPanel.Resources>
+                </StackPanel>
+            </Border>
+            <Border x:Name="BorderInfo" Margin="38,484,730,152" Visibility="Hidden">
+                <StackPanel x:Name="StackNotifications" Margin="20,5,20,0">
+                    <StackPanel.Resources>
+                        <Style TargetType="{x:Type Grid}">
+                            <Setter Property="Margin" Value="0,15,0,0"/>
+                        </Style>
+                    </StackPanel.Resources>
+                </StackPanel>
+            </Border>
+        </Grid>
+
+        <Grid x:Name="GridImages" MouseEnter="GridImages_MouseEnter" MouseLeave="GridImages_MouseLeave">
+            <Canvas x:Name="CanvasImages" Margin="38,230,730,284" Height="200" ClipToBounds="True">
+
+            </Canvas>
+            <Grid x:Name="GridLeft">
+                <Button x:Name="BtnLeft" Content="&lt;" Width="40" Height="200" Template="{StaticResource NoMouseOverButtonTemplate}" Background="#19000000" BorderThickness="0" Foreground="White" FontFamily="NanumGothic" FontSize="30" FontWeight="Bold" Margin="38,230,1122,284" Cursor="Hand" MouseEnter="BtnLeft_MouseEnter" MouseLeave="BtnLeft_MouseLeave" Click="BtnLeft_Click"/>
+            </Grid>
+            <Grid x:Name="GridRight">
+                <Button x:Name="BtnRight" Content="&gt;" Width="40" Height="200" Template="{StaticResource NoMouseOverButtonTemplate}" Background="#19000000" BorderThickness="0" Foreground="White" FontFamily="NanumGothic" FontSize="30" FontWeight="Bold" Margin="430,230,730,284" Cursor="Hand" MouseEnter="BtnRight_MouseEnter" MouseLeave="BtnRight_MouseLeave" Click="BtnRight_Click"/>
+            </Grid>
+            <Grid x:Name="GridCenterButtons" Width="330" Height="20" Margin="154,400,846,284" HorizontalAlignment="Center">
+                <StackPanel x:Name="StackPanelButtons" HorizontalAlignment="Center" Orientation="Horizontal">
+                </StackPanel>
+            </Grid>
+        </Grid>
+
+        <Grid x:Name="GridSettings" Visibility="Hidden">
+            <Rectangle Fill="#7F000000" Margin="0,30,0,0" />
+            <Image Source="/Images/BG.png" Width="800" Height="523.20675105485" Stretch="Fill">
+                <Image.Effect>
+                    <DropShadowEffect ShadowDepth="0" BlurRadius="20" Color="#FF000000" Direction="0" Opacity="0.8" RenderingBias="Quality"/>
+                </Image.Effect>
+            </Image>
+        </Grid>
+
+        <Grid x:Name="GridClose" Visibility="Hidden">
+            <Rectangle Fill="#7F000000" Margin="0,30,0,0" />
+            <Image Source="/Images/BG.png" Width="474" Height="310">
+                <Image.Effect>
+                    <DropShadowEffect ShadowDepth="0" BlurRadius="20" Color="#FF000000" Direction="0" Opacity="0.8" RenderingBias="Quality"/>
+                </Image.Effect>
+            </Image>
+            <Label Content="X 버튼을 누를 시:" FontFamily="NanumGothic" Foreground="Black" FontSize="30" FontWeight="Bold" Margin="385,236,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+
+            <Button x:Name="BtnMinimizeToTray" Template="{StaticResource NoMouseOverButtonTemplate}" Cursor="Hand" Background="Transparent" BorderBrush="Transparent" Width="50" Height="50" Margin="388,294,762,370" Foreground="Black" Click="BtnMinimizeToTray_Click" MouseEnter="BtnMinimizeToTray_MouseEnter" MouseLeave="BtnMinimizeToTray_MouseLeave">
+                <Grid>
+                    <Ellipse x:Name="EllipseMinimizeBorder" Width="25" Height="25" Stroke="#FFC7C7C7" StrokeThickness="3" />
+                    <Ellipse x:Name="EllipseMinimize" Width="10" Height="10" Fill="Black" StrokeThickness="0" />
+                </Grid>
+            </Button>
+            <Label x:Name="LabelMinimize" Content="트레이로 최소화" FontFamily="NanumGothic" FontWeight="Bold" Margin="427,302,623,378" FontSize="20" MouseDown="LabelMinimize_MouseDown"/>
+
+
+            <Button x:Name="BtnCloseApp" Template="{StaticResource NoMouseOverButtonTemplate}" Cursor="Hand" Background="Transparent" BorderBrush="Transparent" Width="50" Height="50" Margin="388,342,762,322" Foreground="Black" Click="BtnCloseApp_Click" MouseEnter="BtnCloseApp_MouseEnter" MouseLeave="BtnCloseApp_MouseLeave">
+                <Grid>
+                    <Ellipse x:Name="EllipseCloseBorder" Width="25" Height="25" Stroke="#FFC7C7C7" StrokeThickness="3" />
+                    <Ellipse x:Name="EllipseClose" Visibility="Hidden" Width="10" Height="10" Fill="Black" StrokeThickness="0" />
+                </Grid>
+            </Button>
+            <Label x:Name="LabelClose" Content="런쳐 닫기" FontFamily="NanumGothic" FontWeight="Bold" Margin="427,350,623,330" FontSize="20" MouseDown="LabelClose_MouseDown"/>
+
+
+            <Button x:Name="BtnCloseOK" Template="{StaticResource NoMouseOverButtonTemplate}" Cursor="Hand" Background="#FF3A3B3F" Margin="686,452,382,220" Foreground="#FFC9B699" BorderThickness="0" Content="확인" FontFamily="NanumGothic" FontSize="20" MouseEnter="BtnCloseOK_MouseEnter" MouseLeave="BtnCloseOK_MouseLeave" Click="BtnCloseOK_Click" FontWeight="Bold" >
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="5"/>
+                    </Style>
+                </Button.Resources>
+            </Button>
+            <Button x:Name="BtnCloseCancel" Template="{StaticResource NoMouseOverButtonTemplate}" Cursor="Hand" Background="White" Margin="544,452,524,220" Foreground="#FFC9B699" BorderThickness="1" Content="취소" FontFamily="NanumGothic" FontSize="20" Click="BtnCloseClose_Click" FontWeight="Bold" >
+                <Button.Resources>
+                    <Style TargetType="Border">
+                        <Setter Property="CornerRadius" Value="5"/>
+                    </Style>
+                </Button.Resources>
             </Button>
         </Grid>
     </Grid>
