@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 using System.IO;
-using System.Text;
+using System.Reflection;
 using System.Text.Json;
 using System.Windows;
 using System.Windows.Controls;
@@ -10,7 +10,6 @@ using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Windows.Threading;
-using Microsoft.Toolkit.Uwp.Notifications;
 using Application = System.Windows.Application;
 using Brush = System.Windows.Media.Brush;
 using Brushes = System.Windows.Media.Brushes;
@@ -40,22 +39,32 @@ public partial class MainWindow : Window
     private readonly List<BitmapImage> _splashImages = [];
     private readonly List<Button> _centerButtons = [];
     private readonly List<Button> _buttons = [];
-    private readonly List<Image> _images = [];
-    
+
     private NotifyIcon _notifyIcon;
 
     public MainWindow()
     {
         InitializeComponent();
 
+        InitNotifyIcon();
+
+        LoadImages();
+
+        LoadNotifications();
+
+        InitializeAutoSwipeTimer();
+    }
+
+    private void InitNotifyIcon()
+    {
         _notifyIcon = new NotifyIcon();
-        _notifyIcon.Icon = new Icon("C:\\Users\\PC\\Documents\\GenshinLauncher\\GenshinLauncher\\Images\\FurinaTray.ico");
+        _notifyIcon.Icon = new Icon(Application.GetResourceStream(new Uri("pack://application:,,,/Images/FurinaTray.ico"))!.Stream);
         _notifyIcon.Visible = true;
         _notifyIcon.Text = "원신 런쳐 - 원신은 역시 푸리나";
         _notifyIcon.BalloonTipText = "원신 런쳐가 트레이 아이콘으로 이동되었습니다.";
         _notifyIcon.BalloonTipTitle = "원신 런쳐 - 원신은 역시 푸리나";
         _notifyIcon.Click +=
-            delegate(object sender, EventArgs args)
+            delegate (object? _, EventArgs args)
             {
                 if (((System.Windows.Forms.MouseEventArgs)args).Button == MouseButtons.Right) return;
 
@@ -65,22 +74,19 @@ public partial class MainWindow : Window
 
         _notifyIcon.ContextMenuStrip = new ContextMenuStrip();
 
-        _notifyIcon.ContextMenuStrip.Items.Add("종료", null, (sender, args) => { Close(); });
-        
-
-        LoadImages();
-
-        LoadNotifications();
-
-        InitializeAutoSwipeTimer();
+        _notifyIcon.ContextMenuStrip.Items.Add("종료", null, (_, _) => { Close(); });
     }
+
+
 
     private void LoadNotifications()
     {
-        var dir = "C:\\Users\\PC\\Documents\\GenshinLauncher\\GenshinLauncher\\Notifications";
+        var assembly = Assembly.GetExecutingAssembly();
+        var eventFile = assembly.GetManifestResourceNames().FirstOrDefault(x => x.EndsWith("Events.json"));
+        var notificationFile = assembly.GetManifestResourceNames().FirstOrDefault(x => x.EndsWith("Notifications.json"));
 
-        var events = File.ReadAllText($"{dir}\\Events.json", Encoding.UTF8);
-        var notifications = File.ReadAllText($"{dir}\\Notifications.json", Encoding.UTF8);
+        var events = new StreamReader(assembly.GetManifestResourceStream(eventFile!)!).ReadToEnd();
+        var notifications = new StreamReader(assembly.GetManifestResourceStream(notificationFile!)!).ReadToEnd();
 
         var eventsJson = JsonSerializer.Deserialize<List<NotificateItem>>(events);
         var notificationsJson = JsonSerializer.Deserialize<List<NotificateItem>>(notifications);
@@ -91,12 +97,12 @@ public partial class MainWindow : Window
         {
             // Create Button
             Button button = new Button();
-            button.Template = (ControlTemplate)Application.Current.Resources["NoMouseOverButtonTemplate"];
+            button.Template = (ControlTemplate)Application.Current.Resources["NoMouseOverButtonTemplate"]!;
             button.Cursor = Cursors.Hand;
             button.Background = Brushes.Transparent;
             button.Foreground = Brushes.Transparent;
             button.BorderThickness = new Thickness(0);
-            button.Click += (sender, args) =>
+            button.Click += (_, _) =>
             {
                 var psi = new ProcessStartInfo
                 {
@@ -149,12 +155,12 @@ public partial class MainWindow : Window
         {
             // Create Button
             Button button = new Button();
-            button.Template = (ControlTemplate)Application.Current.Resources["NoMouseOverButtonTemplate"];
+            button.Template = (ControlTemplate)Application.Current.Resources["NoMouseOverButtonTemplate"]!;
             button.Cursor = Cursors.Hand;
             button.Background = Brushes.Transparent;
             button.Foreground = Brushes.Transparent;
             button.BorderThickness = new Thickness(0);
-            button.Click += (sender, args) =>
+            button.Click += (_, _) =>
             {
                 var psi = new ProcessStartInfo
                 {
@@ -204,7 +210,7 @@ public partial class MainWindow : Window
         }
     }
 
-    private DispatcherTimer _autoSwipeTimer;
+    private DispatcherTimer? _autoSwipeTimer;
 
     private void InitializeAutoSwipeTimer()
     {
@@ -225,12 +231,25 @@ public partial class MainWindow : Window
         _autoSwipeTimer.Start();
     }
 
-
     private void LoadImages()
     {
-        var dir = "C:\\Users\\PC\\Documents\\GenshinLauncher\\GenshinLauncher\\SplashImages";
+        // Read files from Embedded Resources
+        var assembly = Assembly.GetExecutingAssembly();
+        var fileName = assembly.GetManifestResourceNames().Where(x => x.EndsWith(".json") && x.Contains("SplashImages")).ToList();
+        List<string> files = [];
 
-        var files = Directory.GetFiles(dir, "*.json");
+        foreach (var name in fileName)
+        {
+            using var stream = assembly.GetManifestResourceStream(name);
+
+            if (stream == null) continue;
+
+            TextReader reader = new StreamReader(stream);
+
+            var json = reader.ReadToEnd();
+
+            files.Add(json);
+        }
 
         var idx = 0;
 
@@ -244,8 +263,7 @@ public partial class MainWindow : Window
 
         foreach (var file in files)
         {
-            var json = File.ReadAllText(file);
-            var splashImage = JsonSerializer.Deserialize<SplashImage>(json);
+            var splashImage = JsonSerializer.Deserialize<SplashImage>(file);
 
             if (splashImage == null) continue;
 
@@ -271,11 +289,10 @@ public partial class MainWindow : Window
                 Stretch = Stretch.Fill
             };
 
-            _images.Add(img);
             btn.Content = img;
             btn.Cursor = Cursors.Hand;
 
-            btn.Click += (sender, args) =>
+            btn.Click += (_, _) =>
             {
                 var psi = new ProcessStartInfo
                 {
@@ -475,7 +492,7 @@ public partial class MainWindow : Window
         GridDownload.Visibility = Visibility.Visible;
         ProgressDownload.Value = 0f;
         _isDownloading = true;
-        _downloadSize = Random.Shared.NextInt64(5000000000, 20000000000);
+        _downloadSize = Random.Shared.NextInt64(50000000000, 200000000000);
         var bc = new BrushConverter();
         BtnStart.Background = bc.ConvertFrom("#FFBA8F00") as Brush;
         BtnSettings.Background = bc.ConvertFrom("#FFBA8F00") as Brush;
@@ -651,12 +668,12 @@ public partial class MainWindow : Window
 
     private static string FormatBytes(long bytes)
     {
-        string[] Suffix = { "B", "KB", "MB", "GB", "TB" };
+        string[] suffix = ["B", "KB", "MB", "GB", "TB"];
         int i;
         double dblSByte = bytes;
-        for (i = 0; i < Suffix.Length && bytes >= 1000; i++, bytes /= 1000) dblSByte = bytes / 1024.0;
+        for (i = 0; i < suffix.Length && bytes >= 1000; i++, bytes /= 1000) dblSByte = bytes / 1024.0;
 
-        return $"{dblSByte:0.##} {Suffix[i]}";
+        return $"{dblSByte:0.##} {suffix[i]}";
     }
 
     private void BtnPause_MouseEnter(object sender, MouseEventArgs e)
@@ -938,11 +955,13 @@ public partial class MainWindow : Window
         var bc = new BrushConverter();
 
         BtnStart.Background = bc.ConvertFrom("#FFFFC70A") as Brush;
+        BtnSettings.Background = bc.ConvertFrom("#FFFFC70A") as Brush;
         BtnStart.Cursor = Cursors.Hand;
+        BtnSettings.Cursor = Cursors.Hand;
     }
 
     private int _currentImageIdx;
-    private Ellipse _currentEllipse;
+    private Ellipse? _currentEllipse;
 
     private void MoveToNextImg()
     {
@@ -992,12 +1011,11 @@ public partial class MainWindow : Window
             var doubleAnimation = new DoubleAnimation
             {
                 To = newLeft,
-                Duration = TimeSpan.FromSeconds(0.4)
-            };
-
-            doubleAnimation.EasingFunction = new CubicEase
-            {
-                EasingMode = EasingMode.EaseInOut
+                Duration = TimeSpan.FromSeconds(0.3),
+                EasingFunction = new CubicEase
+                {
+                    EasingMode = EasingMode.EaseInOut
+                }
             };
 
             Storyboard.SetTarget(doubleAnimation, button);
@@ -1012,18 +1030,6 @@ public partial class MainWindow : Window
         _isSwiping = true;
 
         ResetAutoSwipeTimer();
-    }
-
-    public IEnumerable<T> FindVisualChildren<T>(DependencyObject depObj) where T : DependencyObject
-    {
-        if (depObj == null) yield return (T)Enumerable.Empty<T>();
-        for (var i = 0; i < VisualTreeHelper.GetChildrenCount(depObj); i++)
-        {
-            var ithChild = VisualTreeHelper.GetChild(depObj, i);
-            if (ithChild == null) continue;
-            if (ithChild is T t) yield return t;
-            foreach (var childOfChild in FindVisualChildren<T>(ithChild)) yield return childOfChild;
-        }
     }
 
     private void GridImages_MouseEnter(object sender, MouseEventArgs e)

@@ -16,78 +16,74 @@
     <None Remove="Images\BG.png" />
     <None Remove="Images\BG1.png" />
     <None Remove="Images\BG2.png" />
-    <None Remove="Images\CloseButton.png" />
     <None Remove="Images\FurinaTray.ico" />
-    <None Remove="Images\Icons.png" />
     <None Remove="Images\ScreenshotIcon.png" />
-    <None Remove="Images\SplashScreen4_1.png" />
-    <None Remove="Images\SplashScreen4_5.png" />
     <None Remove="Images\SplashScreen4_5_2.png" />
-    <None Remove="Images\VersionIssues.png" />
     <None Remove="Notifications.json" />
-    <None Remove="SplashImages\BG1 - 복사%288%29.json" />
-    <None Remove="SplashImages\BG1 - 복사(8) - 복사(7).json" />
-    <None Remove="SplashImages\BG1 - 복사(8) - 복사(8).json" />
-    <None Remove="SplashImages\BG1 - 복사(8) - 복사(9).json" />
-    <None Remove="SplashImages\BG1 - 복사(8) - 복사.json" />
     <None Remove="SplashImages\BG1.json" />
+    <None Remove="SplashImages\BG2 - 복사(2).json" />
+    <None Remove="SplashImages\BG2 - 복사(3).json" />
+    <None Remove="SplashImages\BG2 - 복사(4).json" />
+    <None Remove="SplashImages\BG2 - 복사.json" />
     <None Remove="SplashImages\BG2.json" />
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="SplashImages\BG1 - 복사(8) - 복사(7).json" />
-    <Resource Include="SplashImages\BG1 - 복사(8) - 복사(8).json" />
-    <Resource Include="SplashImages\BG1 - 복사(8) - 복사(9).json" />
-    <Resource Include="SplashImages\BG1 - 복사(8) - 복사.json" />
     <Resource Include="SplashImages\BG2.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Notifications\Events.json" />
+    <EmbeddedResource Include="Notifications\Events.json">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SplashImages\BG2 - 복사(2).json">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SplashImages\BG2 - 복사(3).json">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SplashImages\BG2 - 복사(4).json">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SplashImages\BG2 - 복사.json">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
     <Resource Include="Images\BG.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Images\Icons.png">
+    <EmbeddedResource Include="Notifications\Notifications.json">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Notifications\Notifications.json" />
-    <Resource Include="SplashImages\BG1 - 복사(8).json" />
-    <Resource Include="SplashImages\BG2.json" />
-    <Resource Include="SplashImages\BG1.json" />
+    </EmbeddedResource>
+    <EmbeddedResource Include="SplashImages\BG2.json">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SplashImages\BG1.json">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </EmbeddedResource>
     <Resource Include="SplashImages\BG1.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Images\CloseButton.png">
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Images\FurinaTray.ico">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\Furina.ico">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Images\FurinaTray.ico" />
-    <Content Include="Images\Furina.ico" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Resource Include="Fonts\GowunDodum-Regular.ttf">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
     <Resource Include="Images\ScreenshotIcon.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Images\SplashScreen4_1.png">
-      <CopyToOutputDirectory></CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Images\SplashScreen4_5.png">
-      <CopyToOutputDirectory></CopyToOutputDirectory>
-    </Resource>
     <Resource Include="Images\SplashScreen4_5_2.png">
-      <CopyToOutputDirectory></CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Images\VersionIssues.png">
-      <CopyToOutputDirectory></CopyToOutputDirectory>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Hardcodet.NotifyIcon.Wpf" Version="1.1.0" />
     <PackageReference Include="Microsoft.Toolkit.Uwp.Notifications" Version="7.1.3" />
   </ItemGroup>
 
